@@ -3,6 +3,7 @@ import multiprocessing as mp
 
 # Current available algorithms
 from algorithms import alg_random, alg_random_half, db_expectimax, mc
+from util import evaluate
 
 official_url = "https://thegame-2048.herokuapp.com"
 testing_url = "http://localhost:5000"
@@ -20,7 +21,7 @@ TEAM_NAME = "menyétek"
 maps = {}
 
 # Initiate algorithm configuration
-BEST_ALG = db_expectimax.db_expectimax
+BEST_ALG = alg_random_half.algorithm
 
 # Algorithm chooser
 applied_algs = [BEST_ALG] * TEST_NUMBER
@@ -40,7 +41,7 @@ def initiate_game(table_index):
 
     try:
         # TODO: "random" should be the name of the algorithm
-        SESSION_NAME = TEAM_NAME + "_" + "captian_slow_and_deep"
+        SESSION_NAME = TEAM_NAME + "_" + applied_algs[table_index].label
 
         if DEBUG:
             request = requests.get(url=base_URL + "/api/new_game")
@@ -48,11 +49,11 @@ def initiate_game(table_index):
             request = requests.post(url=base_URL + "/api/new_game",
                                     json={"team_name": SESSION_NAME})
 
-        print(f"Start game on table {table_index}")
+        print(f"Start game on table {table_index} as {SESSION_NAME}")
         print(request.text)
 
-        maps[table_index] = request.json()
-        uIds[table_index] = maps[table_index]['uId']
+        maps[table_index] = request.json()['board']
+        uIds[table_index] = request.json()['uId']
         request.close()
 
     except Exception as e:
@@ -74,11 +75,17 @@ def start_game(table_index):
 
     uId = uIds[table_index]
     current_map = maps[table_index]
-    current_alg = applied_algs[table_index]
+    current_alg = applied_algs[table_index].func
     game_over = False
 
     while True:
         if not game_over:
+            print('Move scores')
+            print(evaluate.evaluate(current_map, 0))
+            print(evaluate.evaluate(current_map, 1))
+            print(evaluate.evaluate(current_map, 2))
+            print(evaluate.evaluate(current_map, 3))
+
             move = current_alg(current_map)
             print(move)
 
@@ -86,8 +93,10 @@ def start_game(table_index):
                                     json={'direction': move,
                                           'uId': uId})
 
+            current_map = request.json()['board']
+
             print(request.json())
-            # print(game_over)
+
             # TODO: Type checking, error handling (HTTP response?)
             game_over = request.json()["game_over"]
 
@@ -102,4 +111,4 @@ def start_game(table_index):
 pool = mp.Pool(mp.cpu_count())
 results = pool.map(start_game, range(TEST_NUMBER))
 pool.close()
-print(results[:10])
+print(results)
