@@ -2,7 +2,7 @@ import requests
 import multiprocessing as mp
 
 # Current available algorithms
-from algorithms import alg_random, alg_random_half
+from algorithms import alg_random, alg_random_half, db_expectimax
 from util import evaluate
 
 # Number of concurrent sessions/games
@@ -11,7 +11,7 @@ TEAM_NAME = "menyétek"
 maps = {}
 
 # Initiate algorithm configuration
-BEST_ALG = alg_random_half.algorithm
+BEST_ALG = db_expectimax.db_expectimax
 
 # Algorithm chooser
 applied_algs = [BEST_ALG] * TEST_NUMBER

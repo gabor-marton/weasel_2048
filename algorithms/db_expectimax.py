@@ -12,10 +12,13 @@ def db_expectimax(board):
 
 
 	movetypes = ("w","a","s","d")
-
+	board = board['board']
+	print(board)
 	# Use local engine
 	grid = Board()
 	grid = grid.get_initstate_from_server(board)
+
+	print(grid)
 
 	# depth of the search
 	depth = 3
