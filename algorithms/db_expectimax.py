@@ -85,7 +85,7 @@ def db_expectimax(serverboard):
 							score += (0.8 * newScore)
 
 
-			# print(score)
+			# print(totalZeroCells)
 			return score / totalZeroCells
 
 	# get the best move

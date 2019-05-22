@@ -20,7 +20,7 @@ def mc(serverboard):
 	grid.state = serverboard
 
 	# nr of random runs
-	runs = 10
+	runs = 50
 
 	#
 	games = []
@@ -28,7 +28,11 @@ def mc(serverboard):
 		games.append(copy.deepcopy(grid))
 
 	moves()
+
 	# Initialize parallel games
 	pool = mp.Pool(mp.cpu_count())
 	results = pool.map(start_game, range(TEST_NUMBER))
 	pool.close()
+
+def randommove(board):
+	random.choice(0)
