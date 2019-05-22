@@ -10,7 +10,7 @@ TEAM_NAME = "menyétek"
 maps = {}
 
 # Initiate algorithm configuration
-BEST_ALG = alg_random.alg
+BEST_ALG = alg_random_half.semi_random
 
 # Algorithm chooser
 applied_algs = [BEST_ALG] * TEST_NUMBER
@@ -28,12 +28,12 @@ def initiate_game(table_index):
     """
     try:
         # TODO: "random" should be the name of the algorithm
-        SESSION_NAME = TEAM_NAME + "_" + "random"
+        SESSION_NAME = TEAM_NAME + "_" + applied_algs[table_index].label
 
         request = requests.post(url="https://thegame-2048.herokuapp.com/api/new_game",
                                 json={"team_name": SESSION_NAME})
 
-        print(f"Start game on table {table_index}")
+        print(f"Start game on table {table_index} as {SESSION_NAME}")
         print(request.text)
 
         maps[table_index] = request.json()
@@ -59,7 +59,7 @@ def start_game(table_index):
 
     uId = uIds[table_index]
     current_map = maps[table_index]
-    current_alg = applied_algs[table_index]
+    current_alg = applied_algs[table_index].func
     game_over = False
 
     while True:
