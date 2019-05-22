@@ -110,25 +110,25 @@ def aiplay(current_map):
             move = "a"
         else:
             print("OVERRIDE")
-            move = "s"
+            move = alg_random_half.algorithm.func(current_map)
     elif direction == "up":
         if evaluate.evaluate(current_map, 0) >= 0:
             move = "w"
         else:
             print("OVERRIDE")
-            move = "a"
+            move = alg_random_half.algorithm.func(current_map)
     elif direction == "right":
         if evaluate.evaluate(current_map, 0) >= 0:
             move = "d"
         else:
             print("OVERRIDE")
-            move = "s"
+            move = alg_random_half.algorithm.func(current_map)
     elif direction == "down":
         if evaluate.evaluate(current_map, 0) >= 0:
             move = "s"
         else:
             print("OVERRIDE")
-            move = "a"
+            move = alg_random_half.algorithm.func(current_map)
 
     return move
 

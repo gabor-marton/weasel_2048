@@ -9,17 +9,17 @@ def alg(game_board):
     :param game_board: game board array
     :return: returns the move (char)
     """
-    if evaluate.evaluate(game_board, 0) == -1 and evaluate.evaluate(game_board, 1) == -1:
+    if evaluate.evaluate(game_board, 0) == -1 and evaluate.evaluate(game_board, 3) == -1:
         # Standard steps are deadlocks
-        if evaluate.evaluate(game_board, 2) > evaluate.evaluate(game_board, 3):
+        if evaluate.evaluate(game_board, 2) > evaluate.evaluate(game_board, 1):
             return "d"
         else:
-            return "s"
+            return "w"
     else:
-        if evaluate.evaluate(game_board, 0) > evaluate.evaluate(game_board, 1):
+        if evaluate.evaluate(game_board, 0) > evaluate.evaluate(game_board, 3):
             return "a"
         else:
-            return "w"
+            return "s"
 
 
 algorithm = alg_class.Algorithm(label="oriented", func=alg)
