@@ -2,7 +2,7 @@ import random
 
 
 # function to simulate play 
-def random_alg(map):
+def alg(map):
 		movetypes = ("w", "a", "s", "d")
 
 		move = random.choice(movetypes)
