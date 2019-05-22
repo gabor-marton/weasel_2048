@@ -9,4 +9,4 @@ def alg(map):
 		move = random.choice(movetypes)
 		return move
 
-semi_random = alg_class.Algorithm(label="random",func=alg)
+algorithm = alg_class.Algorithm(label="random",func=alg)
