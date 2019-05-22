@@ -4,22 +4,22 @@ from util import evaluate
 
 def alg(game_board):
     """
-    This algorithm attempts to only use left/up commands. If nto possible, right/down are also accepted.
+    This algorithm attempts to only use left/bottom (a/s | 0/3 ) commands. If nto possible, right/down are also accepted.
 
     :param game_board: game board array
     :return: returns the move (char)
     """
-    if evaluate.evaluate(game_board, 0) == -1 and evaluate.evaluate(game_board, 1) == -1:
-        # Standard steps are deadlocks
-        if evaluate.evaluate(game_board, 2) > evaluate.evaluate(game_board, 3):
-            return "d"
+    if evaluate.evaluate(game_board, 0) == -1 and evaluate.evaluate(game_board, 3) == -1:
+        # When the preferred steps are deadlocks
+        if evaluate.evaluate(game_board, 1) > evaluate.evaluate(game_board, 2):
+            return "w"
         else:
-            return "s"
+            return "d"
     else:
-        if evaluate.evaluate(game_board, 0) > evaluate.evaluate(game_board, 1):
+        if evaluate.evaluate(game_board, 0) > evaluate.evaluate(game_board, 3):
             return "a"
         else:
-            return "w"
+            return "s"
 
 
 algorithm = alg_class.Algorithm(label="oriented", func=alg)
