@@ -5,12 +5,12 @@ import multiprocessing as mp
 from algorithms import alg_random, alg_random_half
 
 # Number of concurrent sessions/games
-TEST_NUMBER = 2
+TEST_NUMBER = 1
 TEAM_NAME = "menyétek"
 maps = {}
 
 # Initiate algorithm configuration
-BEST_ALG = alg_random_half.semi_random
+BEST_ALG = alg_random_half.algorithm
 
 # Algorithm chooser
 applied_algs = [BEST_ALG] * TEST_NUMBER
@@ -58,7 +58,7 @@ def start_game(table_index):
     initiate_game(table_index)
 
     uId = uIds[table_index]
-    current_map = maps[table_index]
+    current_map = maps[table_index]['board']
     current_alg = applied_algs[table_index].func
     game_over = False
 
@@ -86,4 +86,4 @@ def start_game(table_index):
 pool = mp.Pool(mp.cpu_count())
 results = pool.map(start_game, range(TEST_NUMBER))
 pool.close()
-print(results[:10])
+print(results)
