@@ -133,6 +133,7 @@ class Game:
     def __init__(self, serverboard):
 
         self.board = serverboard
+        self.spawn(2)
 
     def require_playing(f):
         """
@@ -176,7 +177,7 @@ class Game:
         random.shuffle(rows)
         random.shuffle(cols)
 
-        distribution = [2]*9 + [4]
+        distribution = [2]*8 + [4]
         count = 0
         for i, j in itertools.product(rows, rows):
             if count == k: return True
