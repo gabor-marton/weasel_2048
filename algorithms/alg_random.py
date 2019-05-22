@@ -1,4 +1,5 @@
 import random
+from algorithms import algorithms
 
 
 # function to simulate play 
@@ -7,3 +8,5 @@ def alg(map):
 
 		move = random.choice(movetypes)
 		return move
+
+random_alg = algorithms.Algorithm(label=[],func=alg)
