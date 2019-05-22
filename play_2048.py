@@ -50,9 +50,11 @@ def test_game(uId):
         print(move)
         request = requests.post(url="https://thegame-2048.herokuapp.com/api/play_the_game",
                                 json={'direction': move,
-                                       'uId': uId})
+                                      'uId': uId})
 
-        print(request.text)
+        print(request.json())
+        # TODO: Type checking, error handling (HTTP response?)
+        game_over = request.json()["game_over"]
 
 
 pool = mp.Pool(mp.cpu_count())
