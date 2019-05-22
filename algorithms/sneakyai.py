@@ -5,6 +5,8 @@ from algorithms import alg_class
 from util import evaluate
 
 
+from algorithms import alg_random_half
+
 def aimove(b):
     """
     Evaluate the utility of each of the four possible moves
@@ -104,20 +106,31 @@ def aiplay(current_map):
     print(direction)
 
     if direction == "left":
-        move ="a"
+        if evaluate.evaluate(current_map, 0) >= 0:
+            move = "a"
+        else:
+            print("OVERRIDE")
+            move = "s"
     elif direction == "up":
-        move ="w"
+        if evaluate.evaluate(current_map, 0) >= 0:
+            move = "w"
+        else:
+            print("OVERRIDE")
+            move = "a"
     elif direction == "right":
-        move ="d"
+        if evaluate.evaluate(current_map, 0) >= 0:
+            move = "d"
+        else:
+            print("OVERRIDE")
+            move = "s"
     elif direction == "down":
-        move ="s"
+        if evaluate.evaluate(current_map, 0) >= 0:
+            move = "s"
+        else:
+            print("OVERRIDE")
+            move = "a"
 
     return move
-        # if not game.play_move(direction):
-        #     m = max(x for row in b for x in row)
-        #     print('game over...best was {0}'.format(m))
-        #     print(game)
-        #     break
 
 
 algorithm = alg_class.Algorithm(label="sneakyai", func=aiplay)

@@ -1,6 +1,7 @@
 import random
 import itertools
 
+
 def merge_right(b):
     """
     Merge the board right
@@ -19,6 +20,7 @@ def merge_right(b):
     t = map(reverse, b)
     return [reverse(x) for x in merge_left(t)]
 
+
 def merge_up(b):
     """
     Merge the board upward. Note that zip(*t) is the
@@ -35,6 +37,7 @@ def merge_up(b):
     t = merge_left(zip(*b))
     return [list(x) for x in zip(*t)]
 
+
 def merge_down(b):
     """
     Merge the board downward. Note that zip(*t) is the
@@ -50,6 +53,7 @@ def merge_down(b):
 
     t = merge_right(zip(*b))
     return [list(x) for x in zip(*t)]
+
 
 def merge_left(b):
     """
@@ -189,7 +193,3 @@ class Game:
 
     def __str__(self):
         return str(self.board)
-
-# if __name__ == "__main__":
-#     import doctest
-#     doctest.testmod(extraglobs={'test': [[0, 2, 4, 4], [0, 2, 4, 8], [0, 0, 0, 4], [2, 2, 2, 2]]})
