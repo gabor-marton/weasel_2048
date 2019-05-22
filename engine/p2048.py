@@ -2,8 +2,8 @@ from functools import partial
 import random
 import copy
 
-class GameOverException(Exception):
 
+class GameOverException(Exception):
     def __init__(self, board):
         self.score = board.score
 
@@ -28,6 +28,7 @@ class Board(object):
     """
 
     def __init__(self, state=None):
+        self.merge_score = 0
         if state is None:
             self.state = self._get_random_init_state()
         else:
@@ -68,9 +69,9 @@ class Board(object):
 
     def rotate(self):
         """
-        Rotates the board by 90 deegrees clockwise
+        self.rotates the board by 90 deegrees clockwise
         """
-        self.state = rotate(self.state)
+        self.state = self.rotate(self.state)
 
     @board_move
     def move_left(self):
@@ -84,7 +85,7 @@ class Board(object):
         """
         Performs the 'left' move on the board
         """
-        self.apply([partial(map, move)])
+        self.apply([partial(map, self.move)])
 
     @board_move
     def move_right(self):
@@ -98,7 +99,7 @@ class Board(object):
         """
         Performs the 'right' move on the board
         """
-        self.apply([rotate, rotate, partial(map, move), rotate, rotate])
+        self.apply([self.rotate, self.rotate, partial(map, self.move), self.rotate, self.rotate])
 
     @board_move
     def move_down(self):
@@ -112,7 +113,7 @@ class Board(object):
         """
         Performs the 'down' move on the board
         """
-        self.apply([rotate, partial(map, move), rotate, rotate, rotate])
+        self.apply([self.rotate, partial(map, self.move), self.rotate, self.rotate, self.rotate])
 
     @board_move
     def move_up(self):
@@ -126,7 +127,7 @@ class Board(object):
         """
         Performs the 'up' move on the board
         """
-        self.apply([rotate, rotate, rotate, partial(map, move), rotate])
+        self.apply([self.rotate, self.rotate, self.rotate, partial(map, self.move), self.rotate])
 
     def apply(self, functions):
         """
@@ -144,6 +145,8 @@ class Board(object):
         """
         Adds a random digit(either 2 or 4) to the board
         """
+        pass
+        '''
         serialized = self.serialize()
         indexed = zip(range(len(serialized)), serialized)
         zeroes = filter(lambda x: not bool(x[1]), indexed)
@@ -151,6 +154,7 @@ class Board(object):
         digit = random.choice((2, 2, 2, 4))
         serialized[index] = digit
         self.state = self.deserialize(serialized)
+        '''
 
     @property
     def score(self):
@@ -159,43 +163,43 @@ class Board(object):
         """
         return sum(self.serialize())
 
-
-def move(row):
-    without_zeroes = filter(bool, row)
-    return right_pad(merge(without_zeroes))
-
-
-def merge(row):
-    result = []
-    row = list(row)  # copy the row
-    row.reverse()
-    digit_stack = row
-    while digit_stack:
-        if len(digit_stack) == 1:
-            result.append(digit_stack.pop())
-            break
-        a = digit_stack.pop()
-        b = digit_stack.pop()
-        if a == b:
-            result.append(a+b)
-        else:
-            result.append(a)
-            digit_stack.append(b)
-    return result
+    def merge(self, row):
+        result = []
+        row = list(row)  # copy the row
+        row.reverse()
+        digit_stack = row
+        while digit_stack:
+            if len(digit_stack) == 1:
+                result.append(digit_stack.pop())
+                break
+            a = digit_stack.pop()
+            b = digit_stack.pop()
+            if a == b:
+                result.append(a + b)
+                self.merge_score += a + b
+            else:
+                result.append(a)
+                digit_stack.append(b)
+        return result
 
 
-def right_pad(input_list, size=4):
-    result = input_list[:]
-    extension = [0, ] * (size - len(result))
-    result.extend(extension)
-    return result
-
-
-def rotate(board):
-    """
-    Returns the given board rotated by 90 degrees clockwise.
-    """
-    board = list(board)  # copy the board
-    board.reverse()
-    rotated_board = map(list, zip(*board))
-    return list(rotated_board)
+    def move(self, row):
+        without_zeroes = filter(bool, row)
+        return self.right_pad(self.merge(without_zeroes))
+    
+    
+    def right_pad(self, input_list, size=4):
+        result = input_list[:]
+        extension = [0, ] * (size - len(result))
+        result.extend(extension)
+        return result
+    
+    
+    def rotate(self, board):
+        """
+        Returns the given board rotated by 90 degrees clockwise.
+        """
+        board = list(board)  # copy the board
+        board.reverse()
+        rotated_board = map(list, zip(*board))
+        return list(rotated_board)

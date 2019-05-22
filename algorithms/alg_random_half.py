@@ -9,4 +9,4 @@ def alg(map):
     return move
 
 
-algorithm = alg_class.Algorithm(label="random",func=alg)
+algorithm = alg_class.Algorithm(label="random_half", func=alg)

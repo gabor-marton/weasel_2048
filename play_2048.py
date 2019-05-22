@@ -3,6 +3,7 @@ import multiprocessing as mp
 
 # Current available algorithms
 from algorithms import alg_random, alg_random_half
+from util import evaluate
 
 # Number of concurrent sessions/games
 TEST_NUMBER = 1
@@ -36,8 +37,8 @@ def initiate_game(table_index):
         print(f"Start game on table {table_index} as {SESSION_NAME}")
         print(request.text)
 
-        maps[table_index] = request.json()
-        uIds[table_index] = maps[table_index]['uId']
+        maps[table_index] = request.json()['board']
+        uIds[table_index] = request.json()['uId']
         request.close()
 
     except Exception as e:
@@ -58,7 +59,7 @@ def start_game(table_index):
     initiate_game(table_index)
 
     uId = uIds[table_index]
-    current_map = maps[table_index]['board']
+    current_map = maps[table_index]
     current_alg = applied_algs[table_index].func
     game_over = False
 
@@ -70,8 +71,10 @@ def start_game(table_index):
                                     json={'direction': move,
                                           'uId': uId})
 
+            current_map = request.json()['board']
+
             print(request.json())
-            print(game_over)
+
             # TODO: Type checking, error handling (HTTP response?)
             game_over = request.json()["game_over"]
 
