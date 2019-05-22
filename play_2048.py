@@ -80,7 +80,7 @@ def start_game(table_index):
             current_map = request.json()['board']
 
             print(request.json())
-
+            print(game_over)
             # TODO: Type checking, error handling (HTTP response?)
             game_over = request.json()["game_over"]
 
@@ -96,3 +96,4 @@ pool = mp.Pool(mp.cpu_count())
 results = pool.map(start_game, range(TEST_NUMBER))
 pool.close()
 print(results)
+

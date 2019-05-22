@@ -3,28 +3,28 @@ import time
 import random
 import multiprocessing as mp
 import copy
+
 from engine.p2048 import Board
 
 
 
 # function to simulate play 
-def db_expectimax(board):
+def db_expectimax(serverboard):
 
 
-	movetypes = ("w","a","s","d")
-	board = board['board']
-	print(board)
+	serverboard = serverboard['board']
+
 	# Use local engine
 	grid = Board()
-	grid = grid.get_initstate_from_server(board)
 
-	print(grid)
+	# change board
+	grid.state = serverboard
 
 	# depth of the search
-	depth = 3
+	# depth = 5
 
-	PLAYER = 1
-	BOARD = 0
+	BOARD = 1
+	PLAYER = 0
 
 	def expectimax(grid, depth, agent):
 
@@ -36,19 +36,19 @@ def db_expectimax(board):
 			score = 0
 
 			for i in range(0, 4):
-				newGrid = copy.de
+				newGrid = copy.deepcopy(grid)
 				if i == 0:
-					newGrid = grid.clone()
-					nextLevel = grid.move_right
+					newGrid = copy.deepcopy(grid)
+					newGrid.move_left()
 				elif i == 1:
-					newGrid = grid.clone()
-					nextLevel = grid.move_left
+					newGrid = copy.deepcopy(grid)
+					newGrid.move_up()
 				elif i == 2:
-					newGrid = grid.clone()
-					nextLevel = grid.move_up
+					newGrid = copy.deepcopy(grid)
+					newGrid.move_right()
 				elif i == 3:
-					newGrid = grid.clone()
-					nextLevel = grid.move_down
+					newGrid = copy.deepcopy(grid)
+					newGrid.move_down()
 
 				newScore = expectimax(newGrid, depth -1, BOARD)
 
@@ -59,32 +59,67 @@ def db_expectimax(board):
 
 		elif agent == BOARD:
 			score = 0
+			totalZeroCells = 0
 			for i in range(0, 4):
-				for j in range(0,4):
-					if grid[i][j] == 0:
-						newGrid = grid.clone()
-						newGrid
+				for j in range(0, 4):
+					# HANDLE zero tiles
+					if grid.state[i][j] == 0:
+						totalZeroCells += 1
 
+						# a 4 to zero and simulate
+						newGrid = copy.deepcopy(grid)
+						newGrid.state[i][j] = 4
+						newScore =expectimax(newGrid, depth - 1, PLAYER)
+						if newScore == 0:
+							score += 0
+						else:
+							score += (0.2 * newScore)
+
+						# a 2 to zero and simulate
+						newGrid = copy.deepcopy(grid)
+						newGrid.state[i][j] = 2
+						newScore = expectimax(newGrid, depth - 1, PLAYER)
+						if newScore == 0:
+							score += 0
+						else:
+							score += (0.8 * newScore)
+
+
+			# print(score)
+			return score / totalZeroCells
 
 	# get the best move
 	def bestMove(grid, depth):
 
 		score = 0
-		bestMove = []
+
+
 
 		# investigate all moves
 		for i in range(0, 4):
 
-			newGrid = grid.clone()
+			newGrid = copy.deepcopy(grid)
 
-			newScore = expectimax(newGrid, depth -1, board)
+			newScore = expectimax(newGrid, depth -1, agent=BOARD)
+			print(i, "NewScore", newScore)
+			print(i, "Score", score)
 
 			if newScore > score:
-				bestmove = i
+				bestMove = i
 				score = newScore
 
+		if bestMove == 0:
+			move = "a"
+		elif bestMove == 1:
+			move = "w"
+		elif bestMove == 2:
+			move = "d"
+		elif bestMove == 3:
+			move = "s"
 
-	move = 0
+		return move
+
+	move = bestMove(grid, 5)
 
 	return move
 
