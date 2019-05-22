@@ -20,7 +20,7 @@ TEAM_NAME = "menyétek"
 maps = {}
 
 # Initiate algorithm configuration
-BEST_ALG = db_expectimax.db_expectimax
+BEST_ALG = alg_random_half.algorithm
 
 # Algorithm chooser
 applied_algs = [BEST_ALG] * TEST_NUMBER
@@ -40,7 +40,7 @@ def initiate_game(table_index):
 
     try:
         # TODO: "random" should be the name of the algorithm
-        SESSION_NAME = TEAM_NAME + "_" + "captian_slow_and_deep"
+        SESSION_NAME = TEAM_NAME + "_" + applied_algs[table_index].label
 
         if DEBUG:
             request = requests.get(url=base_URL + "/api/new_game")
@@ -74,7 +74,7 @@ def start_game(table_index):
 
     uId = uIds[table_index]
     current_map = maps[table_index]
-    current_alg = applied_algs[table_index]
+    current_alg = applied_algs[table_index].func
     game_over = False
 
     while True:
