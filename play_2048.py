@@ -4,6 +4,16 @@ import multiprocessing as mp
 # Current available algorithms
 from algorithms import alg_random, alg_random_half, db_expectimax, mc
 
+official_url = "https://thegame-2048.herokuapp.com"
+testing_url = "http://localhost:5000"
+
+DEBUG = True
+
+if DEBUG:
+    base_URL = testing_url
+else:
+    base_URL = official_url
+
 # Number of concurrent sessions/games
 TEST_NUMBER = 1
 TEAM_NAME = "menyétek"
@@ -15,7 +25,6 @@ BEST_ALG = db_expectimax.db_expectimax
 # Algorithm chooser
 applied_algs = [BEST_ALG] * TEST_NUMBER
 
-
 uIds = [0] * TEST_NUMBER
 
 
@@ -26,12 +35,18 @@ def initiate_game(table_index):
     :param table_index: The ID of the active game slot
     :return: None
     """
+    if DEBUG:
+        print("***** DEBUG MODER IS ON *****")
+
     try:
         # TODO: "random" should be the name of the algorithm
         SESSION_NAME = TEAM_NAME + "_" + "captian_slow_and_deep"
 
-        request = requests.post(url="https://thegame-2048.herokuapp.com/api/new_game",
-                                json={"team_name": SESSION_NAME})
+        if DEBUG:
+            request = requests.get(url=base_URL + "/api/new_game")
+        else:
+            request = requests.post(url=base_URL + "/api/new_game",
+                                    json={"team_name": SESSION_NAME})
 
         print(f"Start game on table {table_index}")
         print(request.text)
@@ -66,7 +81,8 @@ def start_game(table_index):
         if not game_over:
             move = current_alg(current_map)
             print(move)
-            request = requests.post(url="https://thegame-2048.herokuapp.com/api/play_the_game",
+
+            request = requests.post(url=base_URL + "/api/play_the_game",
                                     json={'direction': move,
                                           'uId': uId})
 
