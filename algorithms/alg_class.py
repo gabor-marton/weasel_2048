@@ -1,9 +1,13 @@
 import random 
 
 class Algorithm:
-
+"""
+class for algorithms.
+label = string, name of the algorithm
+func = function
+"""
 	def __init__(self, label, func):
-		self.label = label
+		self.label = label 
 		self.func = func
 
 
@@ -14,5 +18,4 @@ def alg(map):
 		return move
 
 
-random_alg = algorithms.Algorithm(label="random",func=alg)
-		
+random_alg = Algorithm(label="random",func=alg)

@@ -10,7 +10,7 @@ TEAM_NAME = "menyétek"
 maps = {}
 
 # Initiate algorithm configuration
-BEST_ALG = alg_random
+BEST_ALG = alg_random_half.semi_random
 
 # Algorithm chooser
 applied_algs = [BEST_ALG] * TEST_NUMBER

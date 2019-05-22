@@ -1,5 +1,5 @@
 import random
-from algorithms import algorithms
+from algorithms import alg_class
 
 
 def alg(map):
@@ -9,4 +9,4 @@ def alg(map):
 		return move
 
 
-random_alg = algorithms.Algorithm(label=[],func=alg)
+semi_random = alg_class.Algorithm(label="random",func=alg)
