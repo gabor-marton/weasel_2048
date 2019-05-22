@@ -1,5 +1,6 @@
 import requests
 import multiprocessing as mp
+import datetime
 
 # Current available algorithms
 from algorithms import alg_random, alg_random_half, db_expectimax, mc, sneakyai
@@ -21,7 +22,7 @@ TEAM_NAME = "menyétek"
 maps = {}
 
 # Initiate algorithm configuration
-BEST_ALG = sneakyai.algorithm
+BEST_ALG = alg_random.algorithm
 
 # Algorithm chooser
 applied_algs = [BEST_ALG] * TEST_NUMBER
@@ -98,11 +99,20 @@ def start_game(table_index):
             game_over = request.json()["game_over"]
 
         else:
+            c_score = request.json()["c_score"]
+            SESSION_NAME = TEAM_NAME + "_" + applied_algs[table_index].label
+
+            with open('score_data.txt', 'a') as f:
+                f.write(datetime.datetime.now().strftime('%H:%M:%S')  + "  " + SESSION_NAME + "  " + '%d' % c_score + "\n")
+
+            print()
+            print(f"Game Over. Your score is: {c_score}")
+            print()
+            
             initiate_game(table_index)
             game_over = False
             uId = uIds[table_index]
             current_map = maps[table_index]
-
 
 # Initialize parallel games
 pool = mp.Pool(mp.cpu_count())
