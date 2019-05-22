@@ -85,7 +85,6 @@ def db_expectimax(serverboard):
 						else:
 							score += (0.8 * newScore)
 
-
 			# print(totalZeroCells)
 			return score / totalZeroCells
 
@@ -122,5 +121,5 @@ def db_expectimax(serverboard):
 
 	return move
 
-	
+
 algorithm = alg_class.Algorithm(label="expectimax", func=db_expectimax)

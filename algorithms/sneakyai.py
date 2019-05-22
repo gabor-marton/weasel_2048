@@ -86,6 +86,7 @@ def aimove(b):
         results.append(result)
     return results
 
+
 def aiplay(current_map):
     """
     Runs a game instance playing the move that determined
@@ -95,29 +96,32 @@ def aiplay(current_map):
 
     Returns: void
     """
-    # print(serverboard)
-    b = Game(serverboard=current_map)
-    print(b)
-    # while True:
+    # b = game.board
+
     # print(str(game) + '\n')
-    direction = max(aimove(b.board), key = lambda x: x[1])[0]
-    print(direction)
+    direction = max(aimove(current_map), key = lambda x: x[1])[0]
+    return direction
+
+
+def airun(current_map):
+
+    # b = Game()
+    #
+    # b.board = current_map
+
+    direction = aiplay(current_map)
 
     if direction == "left":
-        move ="a"
+     move ="a"
     elif direction == "up":
-        move ="w"
+     move ="w"
     elif direction == "right":
-        move ="d"
+     move ="d"
     elif direction == "down":
-        move ="s"
+     move ="s"
+    print(direction)
 
     return move
-        # if not game.play_move(direction):
-        #     m = max(x for row in b for x in row)
-        #     print('game over...best was {0}'.format(m))
-        #     print(game)
-        #     break
 
 
-algorithm = alg_class.Algorithm(label="sneakyai", func=aiplay)
+algorithm = alg_class.Algorithm(label="mr.robot", func=aiplay)
