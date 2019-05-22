@@ -85,6 +85,25 @@ def start_game(table_index):
             # print(evaluate.evaluate(current_map, 3))
 
             move = current_alg(current_map)
+
+            # previousmoves = []
+            # print(previousmoves)
+            # # check for bug
+            # # first case
+            # if len(previousmoves) == 0:
+            #     previousmoves.append(move)
+            # # same movement
+            # elif previousmoves[-1] == move:
+            #     previousmoves.append(move)
+            # # 10 same movement
+            # elif len(previousmoves) == 10:
+            #     wrongdirection = previousmoves[-1]
+            #     previousmoves = []
+            #     moves = ["right", "left", "up", "down"]
+            #     moves.remove(wrongdirection)
+            #
+            #     move = random.choice(directions)
+
             print(move)
 
             request = requests.post(url=base_URL + "/api/play_the_game",

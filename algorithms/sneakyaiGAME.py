@@ -130,9 +130,8 @@ class Game:
     and cannot be undone.
     """
 
-    def __init__(self, serverboard):
-
-        self.board = serverboard
+    def __init__(self):
+        self.board = [[0]*4 for _ in range(4)]
         self.spawn(2)
 
     def require_playing(f):
@@ -177,7 +176,7 @@ class Game:
         random.shuffle(rows)
         random.shuffle(cols)
 
-        distribution = [2]*8 + [4]
+        distribution = [2]*9 + [4]
         count = 0
         for i, j in itertools.product(rows, rows):
             if count == k: return True
@@ -190,6 +189,6 @@ class Game:
     def __str__(self):
         return str(self.board)
 
-# if __name__ == "__main__":
-#     import doctest
-#     doctest.testmod(extraglobs={'test': [[0, 2, 4, 4], [0, 2, 4, 8], [0, 0, 0, 4], [2, 2, 2, 2]]})
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod(extraglobs={'test': [[0, 2, 4, 4], [0, 2, 4, 8], [0, 0, 0, 4], [2, 2, 2, 2]]})
