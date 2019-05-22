@@ -37,7 +37,7 @@ def initiate_game(table_index):
     :return: None
     """
     if DEBUG:
-        print("***** DEBUG MODER IS ON *****")
+        print("***** DEBUG MODE IS ON *****")
 
     try:
         # TODO: "random" should be the name of the algorithm
