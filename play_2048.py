@@ -1,5 +1,4 @@
 import requests
-import time
 import multiprocessing as mp
 
 from algorithms import alg_random, alg_random_half
@@ -7,31 +6,29 @@ from algorithms import alg_random, alg_random_half
 
 request = requests.get(url="https://thegame-2048.herokuapp.com/api/new_game")
 TEST_NUMBER = 1
+TEAM_NAME = "menyétek"
 maps = {}
 
 # Initiate algorithm configuration
 BEST_ALG = alg_random.alg
 applied_algs = [BEST_ALG] * TEST_NUMBER
 
+SESSION_NAME = TEAM_NAME + "_" + "random" + "_1"
+
 for i in range(TEST_NUMBER):
     try:
-        start = time.time()
-        request = requests.get(url="https://thegame-2048.herokuapp.com/api/new_game")
-        end = time.time()
+        request = requests.post(url="https://thegame-2048.herokuapp.com/api/new_game",
+                                json={"team_name": SESSION_NAME})
+        print(request)
+        print(request.text)
 
         maps[i] = request.json()
-        end1 = time.time()
         request.close()
-
-        print(f"get request{end1 - start}")
-        print(i)
 
     except Exception as e:
         print(f"error in{i}")
         print(e)
 
-
-print(maps)
 
 uIds = []
 # get the Id of all game
