@@ -63,10 +63,6 @@ def db_expectimax(board):
 						newGrid
 
 
-
-
-
-
 	# get the best move
 	def bestMove(grid, depth):
 
@@ -83,7 +79,6 @@ def db_expectimax(board):
 			if newScore > score:
 				bestmove = i
 				score = newScore
-
 
 
 	move = 0
