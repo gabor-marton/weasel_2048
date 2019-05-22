@@ -22,7 +22,7 @@ TEAM_NAME = "menyétek"
 maps = {}
 
 # Initiate algorithm configuration
-BEST_ALG = alg_random.algorithm
+BEST_ALG = alg_random_half.algorithm
 
 # Algorithm chooser
 applied_algs = [BEST_ALG] * TEST_NUMBER
@@ -108,7 +108,7 @@ def start_game(table_index):
             print()
             print(f"Game Over. Your score is: {c_score}")
             print()
-            
+
             initiate_game(table_index)
             game_over = False
             uId = uIds[table_index]
