@@ -1,9 +1,8 @@
-import requests
+
 import multiprocessing as mp
 
 # Current available algorithms
 from algorithms import alg_random, alg_random_half, db_expectimax
-from util import evaluate
 
 # Number of concurrent sessions/games
 TEST_NUMBER = 1
@@ -29,6 +28,7 @@ def initiate_game(table_index):
     """
     try:
         # TODO: "random" should be the name of the algorithm
+        SESSION_NAME = TEAM_NAME + "_" + "random"
         SESSION_NAME = TEAM_NAME + "_" + applied_algs[table_index].label
 
         request = requests.post(url="https://thegame-2048.herokuapp.com/api/new_game",

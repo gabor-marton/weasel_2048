@@ -8,7 +8,7 @@ from engine.p2048 import Board
 
 
 
-# function to simulate play 
+# function to simulate play
 def db_expectimax(serverboard):
 
 
@@ -93,8 +93,6 @@ def db_expectimax(serverboard):
 
 		score = 0
 
-
-
 		# investigate all moves
 		for i in range(0, 4):
 
@@ -119,7 +117,6 @@ def db_expectimax(serverboard):
 
 		return move
 
-	move = bestMove(grid, 5)
+	move = bestMove(grid, 4)
 
 	return move
-
