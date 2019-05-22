@@ -5,7 +5,8 @@ import multiprocessing as mp
 import copy
 
 from engine.p2048 import Board
-
+from algorithms import alg_class
+from util import evaluate
 
 
 # function to simulate play
@@ -120,3 +121,6 @@ def db_expectimax(serverboard):
 	move = bestMove(grid, 4)
 
 	return move
+
+	
+algorithm = alg_class.Algorithm(label="expectimax", func=db_expectimax)
