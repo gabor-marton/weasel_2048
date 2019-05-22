@@ -18,7 +18,11 @@ def alg(game_board):
 	:param map:
 	:return:
 	"""
-	move = random.choice([commands[x] for x in commands.keys() if evaluate.evaluate(game_board, int(x)) >= 0])
+	try:
+		move = random.choice([commands[x] for x in commands.keys() if evaluate.evaluate(game_board, int(x)) >= 0])
+	except Exception:
+		move = "a"
+
 	return move
 
 
