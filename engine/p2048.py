@@ -31,6 +31,7 @@ class Board(object):
             self.state = state
         self.move_count = 0
 
+
     def get_initstate_from_server(self, serverboard):
         """
         Initialize a board with a given board
