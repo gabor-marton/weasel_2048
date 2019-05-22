@@ -12,12 +12,8 @@ def board_move(move_func):
     def wrapper(*args, **kwargs):
         board = args[0]
         board.move_count += 1
-        board_state_before = board.serialize()
         return_value = move_func(*args, **kwargs)
-        board_state_changed = board.serialize() != board_state_before
-        if 0 not in board.serialize() and not board_state_changed:
-            raise GameOverException(board)
-        board.add_random()
+
         return return_value
     return wrapper
 
@@ -141,20 +137,6 @@ class Board(object):
     def __repr__(self):
         return '<Board {}>'.format(self.state)
 
-    def add_random(self):
-        """
-        Adds a random digit(either 2 or 4) to the board
-        """
-        pass
-        '''
-        serialized = self.serialize()
-        indexed = zip(range(len(serialized)), serialized)
-        zeroes = filter(lambda x: not bool(x[1]), indexed)
-        index, _ = random.choice(list(zeroes))
-        digit = random.choice((2, 2, 2, 4))
-        serialized[index] = digit
-        self.state = self.deserialize(serialized)
-        '''
 
     @property
     def score(self):

@@ -65,6 +65,12 @@ def start_game(table_index):
 
     while True:
         if not game_over:
+            print('Move scores')
+            print(evaluate.evaluate(current_map, 0))
+            print(evaluate.evaluate(current_map, 1))
+            print(evaluate.evaluate(current_map, 2))
+            print(evaluate.evaluate(current_map, 3))
+
             move = current_alg(current_map)
             print(move)
             request = requests.post(url="https://thegame-2048.herokuapp.com/api/play_the_game",
