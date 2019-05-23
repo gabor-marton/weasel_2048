@@ -1,10 +1,10 @@
 import requests
 import multiprocessing as mp
 import datetime
+import random
 
 # Current available algorithms
 from algorithms import alg_random, alg_random_half, db_expectimax, mc
-from util import evaluate
 
 official_url = "https://thegame-2048.herokuapp.com"
 testing_url = "http://localhost:5000"
