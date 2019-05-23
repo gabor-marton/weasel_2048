@@ -78,63 +78,66 @@ def start_game(table_index):
     previousmoves = []
 
     while True:
-        if not game_over:
-            # print('Move scores')
-            # print(evaluate.evaluate(current_map, 0))
-            # print(evaluate.evaluate(current_map, 1))
-            # print(evaluate.evaluate(current_map, 2))
-            # print(evaluate.evaluate(current_map, 3))
+        try:
+            if not game_over:
+                # print('Move scores')
+                # print(evaluate.evaluate(current_map, 0))
+                # print(evaluate.evaluate(current_map, 1))
+                # print(evaluate.evaluate(current_map, 2))
+                # print(evaluate.evaluate(current_map, 3))
 
-            move = current_alg(current_map)
+                move = current_alg(current_map)
 
-            print(previousmoves)
-            # check for bug
-            # first case
-            if len(previousmoves) == 0:
-                previousmoves.append(move)
-            # same movement
-            elif previousmoves[-1] != move:
-                previousmoves = []
-            elif previousmoves[-1] == move:
-                previousmoves.append(move)
-            # 10 same movement
+                print(previousmoves)
+                # check for bug
+                # first case
+                if len(previousmoves) == 0:
+                    previousmoves.append(move)
+                # same movement
+                elif previousmoves[-1] != move:
+                    previousmoves = []
+                elif previousmoves[-1] == move:
+                    previousmoves.append(move)
+                # 10 same movement
 
 
-            if len(previousmoves) >= 4 and move == previousmoves[-1]:
-                wrongdirection = previousmoves[-1]
-                previousmoves = []
-                moves = ["w", "a", "s", "d"]
-                moves.remove(wrongdirection)
+                if len(previousmoves) >= 4 and move == previousmoves[-1]:
+                    wrongdirection = previousmoves[-1]
+                    previousmoves = []
+                    moves = ["w", "a", "s", "d"]
+                    moves.remove(wrongdirection)
 
-                move = random.choice(moves)
+                    move = random.choice(moves)
 
-            print(move)
+                print(move)
 
-            request = requests.post(url=base_URL + "/api/play_the_game",
-                                    json={'direction': move,
-                                          'uId': uId})
-            current_map = request.json()['board']
+                request = requests.post(url=base_URL + "/api/play_the_game",
+                                        json={'direction': move,
+                                              'uId': uId})
+                current_map = request.json()['board']
 
-            print(request.json())
+                print(request.json())
 
-            # TODO: Type checking, error handling (HTTP response?)
-            game_over = request.json()["game_over"]
+                # TODO: Type checking, error handling (HTTP response?)
+                game_over = request.json()["game_over"]
 
-        else:
-            c_score = request.json()["c_score"]
-            SESSION_NAME = TEAM_NAME + "_" + applied_algs[table_index].label
+            else:
+                c_score = request.json()["c_score"]
+                SESSION_NAME = TEAM_NAME + "_" + applied_algs[table_index].label
 
-            with open('score_data.txt', 'a') as f:
-                f.write(datetime.datetime.now().strftime('%H:%M:%S')  + "  " + SESSION_NAME + "  " + '%d' % c_score + "\n")
+                with open('score_data.txt', 'a') as f:
+                    f.write(datetime.datetime.now().strftime('%H:%M:%S')  + "  " + SESSION_NAME + "  " + '%d' % c_score + "\n")
 
-            print()
-            print(f"Game Over. Your score is: {c_score}")
-            print()
+                print()
+                print(f"Game Over. Your score is: {c_score}")
+                print()
 
-            initiate_game(table_index)
-            game_over = False
-            uId = uIds[table_index]
-            current_map = maps[table_index]
+                initiate_game(table_index)
+                game_over = False
+                uId = uIds[table_index]
+                current_map = maps[table_index]
+        except:
+            print("Error")
 
 # Initialize parallel games
 pool = mp.Pool(mp.cpu_count())
