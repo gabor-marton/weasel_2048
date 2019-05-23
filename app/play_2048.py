@@ -139,8 +139,12 @@ def start_game(table_index):
         except:
             print("Error")
 
-# Initialize parallel games
-pool = mp.Pool(mp.cpu_count())
-results = pool.map(start_game, range(TEST_NUMBER))
-pool.close()
-print(results)
+def start():
+    # Initialize parallel games
+    pool = mp.Pool(mp.cpu_count())
+    results = pool.map(start_game, range(TEST_NUMBER))
+    pool.close()
+    print(results)
+
+
+
