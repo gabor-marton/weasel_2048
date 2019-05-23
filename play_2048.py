@@ -3,13 +3,13 @@ import multiprocessing as mp
 import datetime
 
 # Current available algorithms
-from algorithms import alg_random, alg_random_half, db_expectimax, mc, sneakyai
+from algorithms import alg_random, alg_random_half, db_expectimax, mc
 from util import evaluate
 
 official_url = "https://thegame-2048.herokuapp.com"
 testing_url = "http://localhost:5000"
 
-DEBUG = True
+DEBUG = False
 
 if DEBUG:
     base_URL = testing_url
@@ -22,7 +22,7 @@ TEAM_NAME = "menyétek"
 maps = {}
 
 # Initiate algorithm configuration
-BEST_ALG = alg_random_half.algorithm
+BEST_ALG = mc.algorithm
 
 # Algorithm chooser
 applied_algs = [BEST_ALG] * TEST_NUMBER
@@ -75,6 +75,7 @@ def start_game(table_index):
     current_map = maps[table_index]
     current_alg = applied_algs[table_index].func
     game_over = False
+    previousmoves = []
 
     while True:
         if not game_over:
@@ -85,12 +86,33 @@ def start_game(table_index):
             # print(evaluate.evaluate(current_map, 3))
 
             move = current_alg(current_map)
+
+            print(previousmoves)
+            # check for bug
+            # first case
+            if len(previousmoves) == 0:
+                previousmoves.append(move)
+            # same movement
+            elif previousmoves[-1] != move:
+                previousmoves = []
+            elif previousmoves[-1] == move:
+                previousmoves.append(move)
+            # 10 same movement
+
+
+            if len(previousmoves) >= 4 and move == previousmoves[-1]:
+                wrongdirection = previousmoves[-1]
+                previousmoves = []
+                moves = ["w", "a", "s", "d"]
+                moves.remove(wrongdirection)
+
+                move = random.choice(moves)
+
             print(move)
 
             request = requests.post(url=base_URL + "/api/play_the_game",
                                     json={'direction': move,
                                           'uId': uId})
-
             current_map = request.json()['board']
 
             print(request.json())
