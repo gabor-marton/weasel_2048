@@ -9,9 +9,9 @@ def mc(serverboard):
 	b = Board(serverboard=serverboard)
 	b.cells = serverboard
 
-	print("this shit", b.cells)
-
 	aimove = AI.nextMove(b)
+
+	move = ''
 
 	# UP, DOWN, LEFT, RIGHT = 1, 2, 3, 4
 	if aimove == 3:
