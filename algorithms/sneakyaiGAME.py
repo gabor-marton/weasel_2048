@@ -130,8 +130,8 @@ class Game:
     and cannot be undone.
     """
 
-    def __init__(self):
-        self.board = [[0]*4 for _ in range(4)]
+    def __init__(self, servertable):
+        self.board = servertable
         self.spawn(2)
 
     def require_playing(f):
