@@ -34,7 +34,7 @@ class AI(object):
         return (rm)
 
     @staticmethod
-    def nextMove(board,recursion_depth=3):
+    def nextMove(board,recursion_depth=5):
         m,s = AI.nextMoveRecur(board,recursion_depth,recursion_depth)
         return m
 
