@@ -12,9 +12,6 @@ from util import evaluate
 # function to simulate play
 def db_expectimax(serverboard):
 
-
-	serverboard = serverboard['board']
-
 	# Use local engine
 	grid = Board()
 

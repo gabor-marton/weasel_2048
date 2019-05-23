@@ -4,35 +4,38 @@ import random
 import multiprocessing as mp
 import copy
 
-from engine.p2048 import Board
+from algorithms.term2048.board import Board
+from algorithms.term2048.ia import AI
+
+from algorithms import alg_class
+from util import evaluate
 
 
-
-# function to simulate play
 def mc(serverboard):
 
-	serverboard = serverboard['board']
+	b = Board(serverboard=serverboard)
+	print(b)
+	b.cells = serverboard
 
-	# Use local engine
-	grid = Board()
+	print("this shit", b.cells)
 
-	# change board
-	grid.state = serverboard
+	aimove = AI.nextMove(b)
 
-	# nr of random runs
-	runs = 50
+	# UP, DOWN, LEFT, RIGHT = 1, 2, 3, 4
 
-	#
-	games = []
-	for i in range(runs):
-		games.append(copy.deepcopy(grid))
+	if aimove == 3:
+		move ="a"
+	elif aimove == 1:
+		move ="w"
+	elif aimove == 4:
+		move ="d"
+	elif aimove == 2:
+		move ="s"
+	print(move)
 
-	moves()
+	return move
 
-	# Initialize parallel games
-	pool = mp.Pool(mp.cpu_count())
-	results = pool.map(start_game, range(TEST_NUMBER))
-	pool.close()
 
-def randommove(board):
-	random.choice(0)
+
+
+algorithm = alg_class.Algorithm(label="mc", func=mc)

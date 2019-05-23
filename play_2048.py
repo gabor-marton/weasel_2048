@@ -8,7 +8,7 @@ from util import evaluate
 official_url = "https://thegame-2048.herokuapp.com"
 testing_url = "http://localhost:5000"
 
-DEBUG = False
+DEBUG = True
 
 if DEBUG:
     base_URL = testing_url
@@ -16,12 +16,12 @@ else:
     base_URL = official_url
 
 # Number of concurrent sessions/games
-TEST_NUMBER = 8
+TEST_NUMBER = 1
 TEAM_NAME = "menyétek"
 maps = {}
 
 # Initiate algorithm configuration
-BEST_ALG = sneakyai.algorithm
+BEST_ALG = mc.algorithm
 
 # Algorithm chooser
 applied_algs = [BEST_ALG] * TEST_NUMBER
@@ -124,7 +124,6 @@ def start_game(table_index):
             game_over = False
             uId = uIds[table_index]
             current_map = maps[table_index]
-
 
 # Initialize parallel games
 pool = mp.Pool(mp.cpu_count())
