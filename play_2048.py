@@ -17,12 +17,12 @@ else:
     base_URL = official_url
 
 # Number of concurrent sessions/games
-TEST_NUMBER = 8
+TEST_NUMBER = 1
 TEAM_NAME = "menyétek"
 maps = {}
 
 # Initiate algorithm configuration
-BEST_ALG = alg_random_half.algorithm
+BEST_ALG = mc.algorithm
 
 # Algorithm chooser
 applied_algs = [BEST_ALG] * TEST_NUMBER
