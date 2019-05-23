@@ -1,4 +1,6 @@
 import math
+import random
+from multiprocessing import Pool
 
 from algorithms.sneakyaiGAME import *
 from algorithms import alg_class
@@ -87,7 +89,7 @@ def aimove(b):
     return results
 
 
-def aiplay(current_map):
+def aiplay(game):
     """
     Runs a game instance playing the move that determined
     by aimove.
@@ -98,30 +100,37 @@ def aiplay(current_map):
     """
     # b = game.board
 
-    # print(str(game) + '\n')
-    direction = max(aimove(current_map), key = lambda x: x[1])[0]
-    return direction
+    while True:
+        print(str(game) + '\n')
+        direction = max(aimove(game.board), key = lambda x: x[1])[0]
+        print(direction)
+        return direction
+
+        # if not game.play_move(direction):
+        # 	print("reached this")
+        # 	m = max(x for row in b for x in row)
+        # 	print('game over...best was {0}'.format(m))
+        # 	print(game)
+        # 	return direction
 
 
 def airun(current_map):
-
-    # b = Game()
     #
-    # b.board = current_map
+    b = Game(servertable = current_map)
 
-    direction = aiplay(current_map)
+    direction = aiplay(b)
 
     if direction == "left":
-     move ="a"
+        move ="a"
     elif direction == "up":
-     move ="w"
+        move ="w"
     elif direction == "right":
-     move ="d"
+        move ="d"
     elif direction == "down":
-     move ="s"
+        move ="s"
     print(direction)
 
     return move
 
 
-algorithm = alg_class.Algorithm(label="mr.robot", func=aiplay)
+algorithm = alg_class.Algorithm(label="mr.robot", func=airun)

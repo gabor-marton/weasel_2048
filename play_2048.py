@@ -1,6 +1,6 @@
 import requests
 import multiprocessing as mp
-
+import random
 # Current available algorithms
 from algorithms import alg_random, alg_random_half, db_expectimax, mc, sneakyai
 from util import evaluate
@@ -16,7 +16,7 @@ else:
     base_URL = official_url
 
 # Number of concurrent sessions/games
-TEST_NUMBER = 1
+TEST_NUMBER = 8
 TEAM_NAME = "menyétek"
 maps = {}
 
@@ -74,6 +74,7 @@ def start_game(table_index):
     current_map = maps[table_index]
     current_alg = applied_algs[table_index].func
     game_over = False
+    previousmoves = []
 
     while True:
         if not game_over:
@@ -85,30 +86,32 @@ def start_game(table_index):
 
             move = current_alg(current_map)
 
-            # previousmoves = []
-            # print(previousmoves)
-            # # check for bug
-            # # first case
-            # if len(previousmoves) == 0:
-            #     previousmoves.append(move)
-            # # same movement
-            # elif previousmoves[-1] == move:
-            #     previousmoves.append(move)
-            # # 10 same movement
-            # elif len(previousmoves) == 10:
-            #     wrongdirection = previousmoves[-1]
-            #     previousmoves = []
-            #     moves = ["right", "left", "up", "down"]
-            #     moves.remove(wrongdirection)
-            #
-            #     move = random.choice(directions)
+            print(previousmoves)
+            # check for bug
+            # first case
+            if len(previousmoves) == 0:
+                previousmoves.append(move)
+            # same movement
+            elif previousmoves[-1] != move:
+                previousmoves = []
+            elif previousmoves[-1] == move:
+                previousmoves.append(move)
+            # 10 same movement
+
+
+            if len(previousmoves) >= 4 and move == previousmoves[-1]:
+                wrongdirection = previousmoves[-1]
+                previousmoves = []
+                moves = ["w", "a", "s", "d"]
+                moves.remove(wrongdirection)
+
+                move = random.choice(moves)
 
             print(move)
 
             request = requests.post(url=base_URL + "/api/play_the_game",
                                     json={'direction': move,
                                           'uId': uId})
-
             current_map = request.json()['board']
 
             print(request.json())
